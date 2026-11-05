@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'unsafe-inline'; media-src blob:">
+<title>小狮子桌宠</title>
+<style>
+body {margin:0; overflow:hidden; user-select:none}
+canvas {display:block; touch-action:none}
+#bubble {position:absolute; top:7px; left:50%; transform:translateX(-50%); padding:5px 11px; border-radius:14px; background:#fff0d9; color:#623622; font:14px sans-serif; white-space:nowrap; pointer-events:none}
+#voice-status {position:absolute;top:5px;left:50%;transform:translateX(-50%);max-width:250px;width:max-content;box-sizing:border-box;padding:5px 10px;border-radius:14px;background:#fff0d9;color:#623622;font:13px/1.35 system-ui,sans-serif;pointer-events:none;overflow-wrap:anywhere}
+#voice-status[data-phase=recording], #voice-status[data-phase=listening] {background:#a83232;color:#fff6e8}
+</style>
+<div id="bubble" hidden></div>
+<div id="voice-status" role="status" hidden></div>
+<audio id="voice-reply" hidden></audio>
+<script type="module" src="./lion.js"></script>
+</html>

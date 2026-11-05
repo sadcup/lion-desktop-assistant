@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; media-src blob:">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>小狮子桌面助手</title>
+<link rel="stylesheet" href="panel.css">
+<script src="panel.js" defer></script>
+</head>
+<body>
+<header>
+  <div><h1>小狮子桌面助手</h1><p>本机 BOLT · LFM3-Omni</p></div>
+  <div class="header-actions"><button id="look" type="button">看屏幕</button><button id="recent" type="button">最近文件</button><button id="reset" type="button">新对话</button></div>
+</header>
+<main id="history" role="log" aria-label="对话记录">
+  <p id="welcome">可以对我说「打开 Chrome」，或者「找一下我前两天写的项目复盘，找到后打开」。</p>
+</main>
+<section id="recent-files" aria-label="最近文件" hidden></section>
+<section id="pending" aria-label="待确认操作"></section>
+<p id="status" role="status"></p>
+<form id="compose">
+  <label for="message" class="sr">指令</label>
+  <textarea id="message" rows="2" maxlength="4000" placeholder="输入指令，或点下方麦克风"></textarea>
+  <div class="controls">
+    <button id="mic" type="button">🎙 说话</button>
+    <label><input id="speak" type="checkbox" checked> 语音回复</label>
+    <button id="send" type="submit">发送</button>
+  </div>
+</form>
+<audio id="voice" controls hidden></audio>
+</body>
+</html>

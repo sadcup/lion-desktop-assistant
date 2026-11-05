@@ -1,0 +1,34 @@
+:root {color-scheme:dark;font:14px system-ui,sans-serif;color:#ffecdb;background:#211814}
+* {box-sizing:border-box}
+body {margin:0;padding:16px;display:flex;flex-direction:column;height:100vh;gap:10px}
+header,.controls {display:flex;align-items:center;gap:10px;justify-content:space-between}
+h1 {margin:0;font-size:20px}
+p {margin:0;line-height:1.55}
+header p,#status,.controls label {color:#d9bda9;font-size:12px}
+main {flex:1;min-height:58px;overflow:auto;display:flex;flex-direction:column;gap:8px}
+#welcome,.turn,#pending article {border:1px solid #5e4336;border-radius:12px;padding:9px 11px;background:#34251e}
+.turn {white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%}
+.turn.user {align-self:flex-end;background:#573825}
+#pending {max-height:135px;overflow:auto}
+#pending article {margin-bottom:5px}
+#pending pre {font:12px system-ui,sans-serif;white-space:pre-wrap;overflow-wrap:anywhere}
+textarea {width:100%;resize:none;padding:8px;border:1px solid #735342;background:#2d201a;border-radius:8px;color:inherit;font:inherit}
+button {cursor:pointer;background:#553a2c;color:inherit;border:1px solid #79503b;padding:7px 10px;border-radius:8px;font:inherit}
+button:disabled {opacity:.55;cursor:default}
+#send {background:#e7a469;color:#26160e;border-color:#e7a469}
+#mic[aria-pressed=true] {background:#a43c34}
+audio {width:100%;height:32px}
+.sr {position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+
+.header-actions {display:flex;gap:5px}
+.header-actions button {white-space:nowrap}
+.sources {color:#e3c8b4;font-size:12px;overflow-wrap:anywhere;padding:3px 8px}
+.sources li {margin-block:3px}
+
+header {flex-wrap:wrap}
+#recent-files {max-height:170px;overflow:auto;border:1px solid #5e4336;border-radius:9px;padding:8px}
+.recent-file {display:flex;align-items:center;gap:8px;justify-content:space-between;margin-block:5px}
+.recent-file div {min-width:0;overflow-wrap:anywhere}
+.recent-file small {display:block;color:#d9bda9}
+.file-events {color:#e3c8b4;font-size:12px;overflow-wrap:anywhere;padding:3px 8px}
+.file-events li {white-space:pre-wrap;margin-block:3px}

@@ -1,0 +1,65 @@
+name: lion-desktop-assistant
+services:
+  inference:
+    image: ghcr.io/ggml-org/llama.cpp:server-cuda13-b11459
+    gpus: all
+    restart: unless-stopped
+    ports: ["127.0.0.1:18080:8000"]
+    volumes:
+      - "${BOLT_MODEL_DIR:-./models/bolt}:/models:ro"
+    command: ["-m", "/models/Nemotron-3.5-Bolt-E4B-Q4_K_M.gguf", "--alias", "nemotron-bolt", "--host", "0.0.0.0", "--port", "8000", "-c", "${BOLT_CONTEXT:-65536}", "-ngl", "999", "--jinja", "--flash-attn", "on", "--parallel", "1"]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 120s
+    security_opt: ["no-new-privileges:true"]
+
+  assistant:
+    image: python:3.11-slim@sha256:db3ff2e1800a8581e2c48a27c3995339d47bdf046da21c7627accd3d51053a93
+    user: "${HOST_UID:?export HOST_UID}:${HOST_GID:?export HOST_GID}"
+    working_dir: /assistant
+    command: ["python", "server.py"]
+    restart: unless-stopped
+    ports: ["127.0.0.1:18082:8080"]
+    environment:
+      INFERENCE_URL: http://inference:8000
+      DESKTOP_HOME: "${DESKTOP_HOME:?export DESKTOP_HOME}"
+      DESKTOP_SOCKET: /desktop/desktop.sock
+      PYTHONDONTWRITEBYTECODE: "1"
+    volumes:
+      - ./bolt/assistant/server.py:/assistant/server.py:ro
+      - ./bolt/assistant/web:/assistant/web:ro
+      - ./bolt/assistant/data:/assistant/data
+      - ./bolt/assistant/run:/desktop:ro
+    depends_on:
+      inference:
+        condition: service_healthy
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+
+  voice:
+    build: ./omni
+    image: local/lion-omni:5.20.2
+    user: "${HOST_UID:?export HOST_UID}:${HOST_GID:?export HOST_GID}"
+    gpus: all
+    restart: unless-stopped
+    ports: ["127.0.0.1:18682:8080"]
+    volumes:
+      - "${OMNI_MODEL_DIR:-./models/omni}:/model:ro"
+    environment:
+      HOME: /tmp
+      HF_HOME: /tmp/omni-hf
+      HF_HUB_OFFLINE: "1"
+      TRANSFORMERS_OFFLINE: "1"
+      PYTHONDONTWRITEBYTECODE: "1"
+      TORCHINDUCTOR_CACHE_DIR: /tmp/omni-inductor
+      TRITON_CACHE_DIR: /tmp/omni-triton
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    tmpfs:
+      - /tmp:exec,mode=1777,size=512m
+    shm_size: 512m

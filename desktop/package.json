@@ -1,0 +1,16 @@
+{
+  "name": "lion-desktop-assistant",
+  "version": "0.1.0",
+  "private": true,
+  "main": "main.cjs",
+  "scripts": {
+    "start": "electron --ozone-platform=x11 .",
+    "start:panel": "electron --ozone-platform=x11 . --panel"
+  },
+  "dependencies": {
+    "three": "0.180.0"
+  },
+  "devDependencies": {
+    "electron": "40.9.3"
+  }
+}
